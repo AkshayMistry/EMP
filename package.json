@@ -17,7 +17,8 @@
     "ejs": "^3.1.10",
     "express": "^4.19.2",
     "joi": "^17.13.3",
-    "mongoose": "^8.4.4"
+    "mongoose": "^8.4.4",
+    "vercel": "^34.3.0"
   },
   "devDependencies": {
     "@types/body-parser": "^1.19.5",
