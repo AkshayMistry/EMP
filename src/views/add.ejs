@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Add Event</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f4f4f4;
+      }
+      .container {
+        width: 50%;
+        margin: 50px auto;
+        background: #fff;
+        padding: 20px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+      .title {
+        text-align: center;
+        margin-bottom: 20px;
+        font-size: 24px;
+        color: #333;
+      }
+      form {
+        display: flex;
+        flex-direction: column;
+      }
+      label {
+        margin-bottom: 10px;
+        font-weight: bold;
+      }
+      input[type="text"],
+      input[type="email"],
+      input[type="date"] {
+        padding: 10px;
+        margin-bottom: 20px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+      }
+      button {
+        padding: 10px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      .popup {
+          display: none;
+          position: fixed;
+          left: 50%;
+          top: 50%;
+          transform: translate(-50%, -50%);
+          padding: 20px;
+          background-color: #f44336;
+          color: white;
+          border-radius: 5px;
+          z-index: 1000;
+          box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+      }
+      .popup.show {
+          display: block;
+      }
+  </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="title">Add Event</div>
+      <div id="errorPopup" class="popup"></div>
+      <form action="/add-event" method="POST">
+        <label for="eventName">Event Name:</label>
+        <input type="text" id="eventName" name="eventName"  />
+
+        <label for="eventDate">Event Date:</label>
+        <input type="date" id="eventDate" name="eventDate"  />
+
+        <label for="organizer">Organizer:</label>
+        <input type="text" id="organizer" name="organizer"  />
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email"  />
+
+        <label for="phone">Phone:</label>
+        <input type="text" id="phone" name="phone"  />
+
+        <label for="street">Street:</label>
+        <input type="text" id="street" name="location.street"  />
+
+        <label for="city">City:</label>
+        <input type="text" id="city" name="location.city"  />
+
+        <label for="state">State:</label>
+        <input type="text" id="state" name="location.state"  />
+
+        <label for="zip">Zip:</label>
+        <input type="text" id="zip" name="location.zip"  />
+
+        <button type="submit">Add Event</button>
+      </form>
+    </div>
+    <script>
+      // Handle form submission and display validation errors
+      async function handleSubmit(event) {
+          event.preventDefault();
+          const form = event.target;
+          const formData = new FormData(form);
+          const response = await fetch('/events', {
+              method: 'POST',
+              body: formData
+          });
+          const result = await response.json();
+          if (result.errors) {
+              displayError(result.errors[0]);
+          } else {
+              form.submit();
+          }
+      }
+  </script>
+  </body>
+</html>

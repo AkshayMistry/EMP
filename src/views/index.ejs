@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Management</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            width: 80%;
+            margin: 50px auto;
+            background: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .title {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 24px;
+            color: #333;
+        }
+        .add-button {
+            float: right;
+            margin-bottom: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .pagination a {
+            margin: 0 5px;
+            padding: 8px 16px;
+            text-decoration: none;
+            border: 1px solid #ddd;
+            color: #333;
+        }
+        .pagination a.active {
+            background-color: #007bff;
+            color: white;
+            border: 1px solid #007bff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="title">Event Management</div>
+        <div class="add-button">
+            <a href="/add-event" class="btn btn-primary"><i class="fas fa-plus"></i> Add Event</a>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Sr no.</th>
+                    <th>Event Name</th>
+                    <th>Event Date</th>
+                    <th>Organizer</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Street</th>
+                    <th>City</th>
+                    <th>State</th>
+                    <th>Zip</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% events.forEach( (event, i) => { %>
+                    <tr>
+                        <td><%= ++i %></td>
+                        <td><%= event.eventName %></td>
+                        <td><%= event.eventDate %></td>
+                        <td><%= event.organizer %></td>
+                        <td><%= event.email %></td>
+                        <td><%= event.phone %></td>
+                        <td><%= event.location.street %></td>
+                        <td><%= event.location.city %></td>
+                        <td><%= event.location.state %></td>
+                        <td><%= event.location.zip %></td>
+                        <td>
+                            <a href="/event/<%= event._id %>">View</a> | 
+                            <a href="/edit-event/<%= event._id %>">Edit</a> | 
+                            <form action="/delete-event/<%= event._id %>" method="POST" style="display:inline;">
+                                <button type="submit">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                <% }) %>
+            </tbody>
+        </table>
+        <div class="pagination">
+            <% if (page > 1) { %>
+                <a href="?page=<%= page - 1 %>">&laquo; Previous</a>
+            <% } %>
+            <% for (let i = 1; i <= totalPages; i++) { %>
+                <a href="?page=<%= i %>" class="<%= page === i ? 'active' : '' %>"><%= i %></a>
+            <% } %>
+            <% if (page < totalPages) { %>
+                <a href="?page=<%= page + 1 %>">Next &raquo;</a>
+            <% } %>
+        </div>
+    </div>
+</body>
+</html>
